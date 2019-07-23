@@ -5,6 +5,9 @@ var express = require('express');
 var path        =         require('path'),
     mongoose    =         require("mongoose"),
     Item        =         require("./Model/ItemDao"),
+    Product        =         require("./Model/ProductReviewDao"),
+    Attribute        =         require("./Model/AttributeDao"),
+
     bodyParser = require('body-parser');
 
 //using express that we have imported
@@ -39,7 +42,12 @@ mongoose.connect("mongodb+srv://prashantbasnet:prashant.basnet@cluster0-lhfyg.mo
 //get request for "/" is handled here
 app.get("/",function (req,res) {
 
-
+// P.create({
+//
+// });
+// A.create({
+//
+// });
   res.send("prashant");
 });
 
@@ -49,10 +57,37 @@ app.get("/addProduct",function (req,res) {
 app.post("/addProductJson",function (req,res) {
 
     var data=req.body;
+
+   Attribute.create({
+        Color: data.Name,
+        Dimension:data.Name,
+        Weight: data.Name
+    },function (err,attribute) {
+       if (err) {
+           console.log(err);
+       }
+
+    Product.create({
+        UserId: data.Name,
+        Comment:data.Name,
+        Stars: 5
+    },function (err,product) {
+        if(err){
+            console.log(err);
+        }
+
     Item.create({
-    Name: data.Name,
-    Price:data.Price,
-    Description:data.Description
+        Name: data.Name,
+        Label:data.Name,
+        Image: data.Name,
+        Category: data.Name,
+        Model: data.Name,
+        ShortDescription: data.Description,
+        Description:data.Description,
+        Stock: true,
+        Date: data.Name,
+        Attributes: attribute._id,
+        ProductReview: product._id
   },function (err,save) {
     if(err){
       console.log(err);
@@ -61,9 +96,14 @@ app.post("/addProductJson",function (req,res) {
     }
 
   })
+   });
+   });
 
+Attribute.findById("5d3680d4f149bd2c40befe39", function(err, value){
+    console.log(value);
+});
     res.send("Data inserted into backend")
-})
+});
 
 app.get("/getAllProduct",function (req,res) {
     Item.find({},function (err,value) {
